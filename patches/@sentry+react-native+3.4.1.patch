@@ -1,0 +1,32 @@
+diff --git a/node_modules/@sentry/react-native/android/src/main/java/io/sentry/react/RNSentryModule.java b/node_modules/@sentry/react-native/android/src/main/java/io/sentry/react/RNSentryModule.java
+index 7697859..721bdab 100644
+--- a/node_modules/@sentry/react-native/android/src/main/java/io/sentry/react/RNSentryModule.java
++++ b/node_modules/@sentry/react-native/android/src/main/java/io/sentry/react/RNSentryModule.java
+@@ -67,6 +67,7 @@ public class RNSentryModule extends ReactContextBaseJavaModule {
+     public RNSentryModule(ReactApplicationContext reactContext) {
+         super(reactContext);
+         packageInfo = getPackageInfo(reactContext);
++        logger.warning("Initializing RNSentryModule");
+     }
+
+     @Override
+diff --git a/node_modules/@sentry/react-native/dist/js/tracing/reactnativetracing.js b/node_modules/@sentry/react-native/dist/js/tracing/reactnativetracing.js
+index b6c7401..b0bef44 100644
+--- a/node_modules/@sentry/react-native/dist/js/tracing/reactnativetracing.js
++++ b/node_modules/@sentry/react-native/dist/js/tracing/reactnativetracing.js
+@@ -30,6 +30,7 @@ export class ReactNativeTracing {
+         shouldCreateSpanForRequest, routingInstrumentation, enableAppStartTracking, enableNativeFramesTracking, enableStallTracking, } = this.options;
+         this._getCurrentHub = getCurrentHub;
+         if (enableAppStartTracking) {
++            console.log('Starting instrumenting app startup time - calling _instrumentAppStart');
+             void this._instrumentAppStart();
+         }
+         if (enableNativeFramesTracking) {
+@@ -95,6 +96,7 @@ export class ReactNativeTracing {
+                 return;
+             }
+             const appStart = yield NATIVE.fetchNativeAppStart();
++            console.log('Getting native app start data from native method fetchNativeAppStart', JSON.stringify({ appStart }));
+             if (!appStart || appStart.didFetchAppStart) {
+                 return;
+             }
